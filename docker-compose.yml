@@ -1,0 +1,124 @@
+version: '3.8'
+
+services:
+  # Base de données PostgreSQL
+  postgres:
+    image: postgres:16-alpine
+    container_name: taskmanager-db
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      # Volume persistant pour les données
+      - postgres_data:/var/lib/postgresql/data
+      # Script d'initialisation
+      - ./tasks-service/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "${POSTGRES_PORT}:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - taskmanager-network
+
+  # Service de gestion des tâches
+  tasks-service:
+    build:
+      context: ./tasks-service
+      dockerfile: Dockerfile
+      target: dev
+    image: tasks-service:latest
+    container_name: taskmanager-tasks-service
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
+      PORT: ${TASKS_SERVICE_PORT}
+      NODE_ENV: ${NODE_ENV}
+    ports:
+      - "${TASKS_SERVICE_PORT}:${TASKS_SERVICE_PORT}"
+    volumes:
+      - ./tasks-service:/app
+      - /app/node_modules
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:${TASKS_SERVICE_PORT}/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - taskmanager-network
+    restart: unless-stopped
+
+  # Service de statistiques
+  stats-service:
+    build:
+      context: ./stats-service
+      dockerfile: Dockerfile
+      target: dev
+    image: stats-service:latest
+    container_name: taskmanager-stats-service
+    environment:
+      TASKS_SERVICE_URL: http://tasks-service:${TASKS_SERVICE_PORT}
+      PORT: ${STATS_SERVICE_PORT}
+      NODE_ENV: ${NODE_ENV}
+    ports:
+      - "${STATS_SERVICE_PORT}:${STATS_SERVICE_PORT}"
+    volumes:
+      - ./stats-service:/app
+      - /app/node_modules
+    depends_on:
+      tasks-service:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:${STATS_SERVICE_PORT}/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - taskmanager-network
+    restart: unless-stopped
+
+  # Frontend React
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: taskmanager-frontend
+    ports:
+      - "${FRONTEND_PORT}:80"
+    depends_on:
+      - tasks-service
+      - stats-service
+    networks:
+      - taskmanager-network
+    restart: unless-stopped
+
+  # Adminer - Interface de gestion de base de données
+  adminer:
+    image: adminer:latest
+    container_name: taskmanager-adminer
+    ports:
+      - "${ADMINER_PORT}:8080"
+    depends_on:
+      - postgres
+    networks:
+      - taskmanager-network
+    restart: unless-stopped
+    environment:
+      ADMINER_DEFAULT_SERVER: ${ADMINER_DEFAULT_SERVER}
+
+# Volumes persistants
+volumes:
+  postgres_data:
+    driver: local
+
+# Réseau personnalisé
+networks:
+  taskmanager-network:
+    driver: bridge

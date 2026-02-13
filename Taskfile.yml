@@ -1,0 +1,40 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+
+version: '3'
+
+vars:
+  SERVICES: tasks-service stats-service frontend
+
+tasks:
+  default:
+    desc: Affiche
+    cmds:
+      - task --list
+    silent: true
+
+  install:
+    desc: Installe les dépendances de tous les services
+    deps:
+      [clean]
+    cmds:
+      - cd tasks-service && npm install
+      - cd stats-service && npm install
+      - cd frontend && npm install
+
+  test:
+    desc: Lance les tests de tous les services
+    cmds:
+      - cd tasks-service && npm test
+      - cd stats-service && npm test
+
+  clean:
+    desc: Nettoie les dossiers node_modules de tous les services
+    cmds:
+      - rm -rf tasks-service/node_modules tasks-service/dist
+      - rm -rf stats-service/node_modules stats-service/dist
+      - rm -rf frontend/node_modules frontend/dist
+
+  build:
+    desc: Build les images Docker de tous les services
+    cmds:
+      - docker compose build

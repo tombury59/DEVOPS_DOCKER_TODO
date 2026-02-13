@@ -5,7 +5,8 @@
 
 import type { Task } from '../domain/stats.js'
 
-const TASKS_SERVICE_URL = process.env.TASKS_SERVICE_URL || 'http://tasks-service:3001'
+//const TASKS_SERVICE_URL = process.env.TASKS_SERVICE_URL || 'http://tasks-service:3001'
+const TASKS_SERVICE_URL = process.env.TASKS_SERVICE_URL || 'http://localhost:3001'
 
 export async function fetchAllTasks(): Promise<Task[]> {
   try {
