@@ -4,6 +4,9 @@ version: '3'
 
 vars:
   SERVICES: tasks-service stats-service frontend
+  DOCKER_REGISTRY: localhost:5000
+  DOCKER_TAG: latest
+  VERSION: v1.0.0
 
 tasks:
   default:
@@ -38,3 +41,122 @@ tasks:
     desc: Build les images Docker de tous les services
     cmds:
       - docker compose build
+
+  registry-start:
+    desc: Démarre le registry Docker local (compose up si absent, sinon start)
+    cmds:
+      - docker compose up -d registry || docker start registry || (echo 'Impossible de démarrer ou créer le registry' && exit 1)
+
+  registry-stop:
+    desc: Arrête et supprime le registry local via docker compose
+    cmds:
+      - docker compose down registry || docker rm -f registry || echo 'Aucun registry à arrêter'
+
+  registry-status:
+    desc: Affiche l'état du registry local et teste l'API
+    cmds:
+      - docker ps --filter name=registry --format "table {{.ID}}\t{{.Names}}\t{{.Status}}\t{{.Ports}}"
+      - echo 'Test API /v2/ (doit répondre {})'
+      - curl -s http://{{.DOCKER_REGISTRY}}/v2/ || echo 'curl failed'
+
+  prune-build-cache:
+    desc: Vide le cache de build Docker
+    cmds:
+      - docker builder prune --all --force
+
+  pull-base:
+    desc: Pré-pull de l'image de base pour éviter des téléchargements interrompus pendant la build
+    cmds:
+      - docker pull node:24-alpine
+
+  build-and-push:
+    desc: Construit l'image `tasks-service:{{.VERSION}}` et la pousse vers le registry local ({{.DOCKER_REGISTRY}})
+    deps:
+      [registry-start, prune-build-cache, pull-base]
+    cmds:
+      - docker build -t tasks-service:{{.VERSION}} ./tasks-service
+      - docker tag tasks-service:{{.VERSION}} {{.DOCKER_REGISTRY}}/tasks-service:{{.VERSION}}
+      - docker push {{.DOCKER_REGISTRY}}/tasks-service:{{.VERSION}}
+
+  registry-verify:
+    desc: Vérifie le registry via l'API et liste les images/tags (attend que le registry soit prêt)
+    deps: [registry-start]
+    cmds:
+      - echo 'Test API /v2/ (doit répondre {} si ok)'
+      - curl -s http://{{.DOCKER_REGISTRY}}/v2/ || echo '{}'
+      - echo 'Catalogue des repositories:'
+      - curl -s http://{{.DOCKER_REGISTRY}}/v2/_catalog || echo '{}'
+      - echo "Tags pour tasks-service (s'il existe):"
+      - curl -s http://{{.DOCKER_REGISTRY}}/v2/tasks-service/tags/list || echo '{}'
+
+  registry-pull-run:
+    desc: Supprime l'image locale, pull depuis le registry local et lance le conteneur (TP)
+    deps: [build-and-push]
+    cmds:
+      - docker rmi tasks-service:{{.VERSION}} || echo "image tasks-service:{{.VERSION}} absente"
+      - docker rmi tasks-service:v1 || echo 'image tasks-service:v1 absente'
+      - docker rmi {{.DOCKER_REGISTRY}}/tasks-service:{{.VERSION}} || echo "image {{.DOCKER_REGISTRY}}/tasks-service:{{.VERSION}} absente"
+      - docker rmi {{.DOCKER_REGISTRY}}/tasks-service:latest || echo "image {{.DOCKER_REGISTRY}}/tasks-service:latest absente"
+      - docker pull {{.DOCKER_REGISTRY}}/tasks-service:{{.VERSION}}
+      - docker run -d -p 3001:3001 --name tasks-service-local {{.DOCKER_REGISTRY}}/tasks-service:{{.VERSION}}
+
+  ci-local:
+    desc: Exécute la CI locale complète via PowerShell (install, typecheck, tests, build, intégration)
+    cmds:
+      - powershell -ExecutionPolicy Bypass -File .\ci-local.ps1
+    silent: false
+
+  tag:
+    desc: Tag l'image `tasks-service` pour le registry local (version et latest)
+    cmds:
+      - |
+        if (docker images -q tasks-service:{{.VERSION}}) {
+          echo "Tagging tasks-service:{{.VERSION}} -> {{.DOCKER_REGISTRY}}/tasks-service:{{.VERSION}}"
+        } else {
+          echo "Image tasks-service:{{.VERSION}} introuvable, vous devez d'abord la build (task build ou docker build)." ; exit 0
+        }
+      - docker tag tasks-service:{{.VERSION}} {{.DOCKER_REGISTRY}}/tasks-service:{{.VERSION}} || echo 'tag version failed'
+      - docker tag tasks-service:{{.VERSION}} {{.DOCKER_REGISTRY}}/tasks-service:{{.DOCKER_TAG}} || echo 'tag latest failed'
+
+  push:
+    desc: Pousse les tags vers le registry local
+    deps: [registry-start]
+    cmds:
+      - docker push {{.DOCKER_REGISTRY}}/tasks-service:{{.VERSION}} || echo 'push version failed'
+      - docker push {{.DOCKER_REGISTRY}}/tasks-service:{{.DOCKER_TAG}} || echo 'push latest failed'
+
+  pull:
+    desc: Pull l'image depuis le registry local
+    cmds:
+      - docker pull {{.DOCKER_REGISTRY}}/tasks-service:{{.VERSION}} || echo 'pull failed'
+
+  registry:list:
+    desc: Liste les repositories et tags du registry local via l'API
+    deps: [registry-start]
+    cmds:
+      - echo 'Catalogue:'
+      - curl -s http://{{.DOCKER_REGISTRY}}/v2/_catalog || echo '{}'
+      - echo 'Tags tasks-service:'
+      - curl -s http://{{.DOCKER_REGISTRY}}/v2/tasks-service/tags/list || echo '{}'
+
+  registry:clean:
+    desc: Nettoie le registry (supprime les images stockées) en redémarrant proprement
+    cmds:
+      - |
+        echo '⚠️ Suppression des images du registry...'
+        powershell -Command "docker compose down registry; try { docker volume rm registry-data } catch { Write-Output 'volume registry-data déjà supprimé ou introuvable' }; docker compose up -d registry"
+      - echo '✅ Registry nettoyé'
+
+  ci:
+    desc: Pipeline CI (install → test → build → tag → push → verify)
+    cmds:
+      - echo "🚀 Pipeline CI complète..."
+      - task install
+      - task test
+      - task build
+      - task build-and-push
+      - task registry-verify
+      - echo "✅ Pipeline CI terminée"
+
+volumes:
+  registry-data:

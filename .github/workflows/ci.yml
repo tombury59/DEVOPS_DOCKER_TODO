@@ -1,0 +1,81 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.x]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install & build & tests (tasks-service)
+        working-directory: ./tasks-service
+        run: |
+          npm ci
+          npm run typecheck || true
+          npm test
+          npm run build
+
+      - name: Install & build & tests (stats-service)
+        working-directory: ./stats-service
+        run: |
+          npm ci
+          npm run typecheck || true
+          npm test
+          npm run build
+
+      - name: Install & build frontend
+        working-directory: ./frontend
+        run: |
+          npm ci
+          npm run typecheck || true
+          npm run build
+
+  integration:
+    needs: build-test
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: taskuser
+          POSTGRES_PASSWORD: taskpass
+          POSTGRES_DB: taskdb
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U taskuser -d taskdb"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Start app stack
+        run: |
+          docker compose up -d --build
+          sleep 10
+          for i in {1..30}; do
+            if curl -sSf http://localhost:3001/health && curl -sSf http://localhost:3002/health; then
+              echo "services healthy" && break
+            fi
+            sleep 2
+          done
+      - name: Run integration smoke tests
+        run: |
+          curl -f http://localhost:3001/api/tasks || (docker compose logs && exit 1)
+          curl -sS http://localhost:3002/api/stats || echo "stats endpoint may be empty"

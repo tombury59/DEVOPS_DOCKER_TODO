@@ -113,9 +113,23 @@ services:
     environment:
       ADMINER_DEFAULT_SERVER: ${ADMINER_DEFAULT_SERVER}
 
+  # Local Docker Registry (pour l'atelier)
+  registry:
+    image: registry:3.0.0
+    container_name: registry
+    ports:
+      - "5000:5000"
+    volumes:
+      - registry-data:/var/lib/registry
+    restart: unless-stopped
+    networks:
+      - taskmanager-network
+
 # Volumes persistants
 volumes:
   postgres_data:
+    driver: local
+  registry-data:
     driver: local
 
 # Réseau personnalisé

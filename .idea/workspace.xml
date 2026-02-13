@@ -5,12 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e06e72f3-cf9c-4dcf-9936-2644e3fe1654" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/tasks-service/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/stats-service/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/stats-service/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/stats-service/src/client/tasks.client.ts" beforeDir="false" afterPath="$PROJECT_DIR$/stats-service/src/client/tasks.client.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tasks-service/src/api/tasks.routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/tasks-service/src/api/tasks.routes.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.github/workflows/ci.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/scripts/registry-start.ps1" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Taskfile.yml" beforeDir="false" afterPath="$PROJECT_DIR$/Taskfile.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,6 +24,18 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;tombury59&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/tombury59/DEVOPS_DOCKER_TODO.git&quot;,
+    &quot;accountId&quot;: &quot;84da7523-bfd2-413f-8751-42cb45647160&quot;
+  }
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 2
 }</component>
@@ -46,6 +57,7 @@
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;terminal&quot;,
     &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\themi\\Documents\\Cours\\Cours\\M1 FS\\DEVOPS_DOCKER\\GROS-PROJET\\frontend\\node_modules\\typescript\\lib&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
@@ -66,7 +78,8 @@
       <updated>1769172656682</updated>
       <workItem from="1769172657881" duration="4123000" />
       <workItem from="1770801749670" duration="72000" />
-      <workItem from="1770971495558" duration="3521000" />
+      <workItem from="1770971495558" duration="8106000" />
+      <workItem from="1770985985250" duration="1923000" />
     </task>
     <servers />
   </component>
