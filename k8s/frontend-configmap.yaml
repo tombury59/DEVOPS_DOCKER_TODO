@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: frontend-config
+  namespace: demo-devops
+data:
+  # Frontend configuration
+  FRONTEND_PORT: "80"
+  NODE_ENV: "production"
+  # API endpoints (utiliser les services du cluster)
+  TASKS_SERVICE_URL: "http://tasks-service:80"
+  STATS_SERVICE_URL: "http://stats-service:3002"

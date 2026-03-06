@@ -2,8 +2,9 @@
  * API client for tasks-service
  */
 
-const TASKS_API_URL = import.meta.env.VITE_TASKS_API_URL || 'http://localhost:3001/api/tasks'
-const STATS_API_URL = import.meta.env.VITE_STATS_API_URL || 'http://localhost:3002/api/stats'
+// Mise à jour : utiliser les NodePorts exposés sur l'hôte comme fallback pour un test simple local
+const TASKS_API_URL = import.meta.env.VITE_TASKS_API_URL ?? 'http://localhost:30080/api/tasks'
+const STATS_API_URL = import.meta.env.VITE_STATS_API_URL ?? 'http://localhost:30081/api/stats'
 
 export interface Task {
   id: string
@@ -41,7 +42,7 @@ export async function createTask(title: string, description?: string): Promise<T
 
   if (!response.ok) {
     const error = await response.json()
-    throw new Error(error.error || 'Failed to create task')
+    throw new Error(error.error ?? 'Failed to create task')
   }
 
   return response.json()

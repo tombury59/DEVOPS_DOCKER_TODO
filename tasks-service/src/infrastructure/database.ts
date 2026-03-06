@@ -4,7 +4,11 @@
 
 import { Pool } from 'pg'
 
-const DATABASE_URL = process.env.DATABASE_URL || 'postgres://taskuser:taskpass@localhost:5432/taskdb'
+const envDatabaseUrl = process.env.DATABASE_URL
+
+const fallbackDatabaseUrl = `postgres://${process.env.PGUSER || 'taskuser'}:${process.env.PGPASSWORD || 'taskpass'}@${process.env.PGHOST || 'localhost'}:${process.env.PGPORT || '5432'}/${process.env.PGDATABASE || 'taskdb'}`
+
+const DATABASE_URL = envDatabaseUrl ?? fallbackDatabaseUrl
 
 export const pool = new Pool({
   connectionString: DATABASE_URL,
@@ -26,7 +30,7 @@ pool.on('error', (err) => {
 export async function testConnection(): Promise<boolean> {
   try {
     const result = await pool.query('SELECT NOW()')
-    console.log('📊 Database connection test successful:', result.rows[0])
+    console.log('✅ Database connection test successful:', result.rows[0])
     return true
   } catch (error) {
     console.error('❌ Database connection test failed:', error)

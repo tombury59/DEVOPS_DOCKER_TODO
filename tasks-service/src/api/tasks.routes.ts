@@ -19,10 +19,11 @@ import {
 export function createTaskRoutes(repository: ITaskRepository): Router {
   const router = Router()
 
-  // GET /api/tasks?status=todo|done
+  // GET /api/tasks?status=tododone
   router.get('/', async (req: Request, res: Response) => {
     try {
-      const status = req.query.status as TaskStatus | undefined
+      // Correction: extraire la query et caster proprement
+      const status = (req.query.status as string) as TaskStatus | undefined
       let tasks = await repository.findAll()
 
       if (status) {

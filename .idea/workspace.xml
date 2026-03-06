@@ -5,11 +5,35 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e06e72f3-cf9c-4dcf-9936-2644e3fe1654" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.github/workflows/ci.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scripts/registry-start.ps1" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docker-compose.dev.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docker-compose.prod.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/frontend-configmap.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/frontend-deployment.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/frontend-service.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/stats-service-configmap.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/stats-service-deployment.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/stats-service-service.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/tasks-service-configmap.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/tasks-service-deployment.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/tasks-service-secret.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/tasks-service-service.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/tasks-service.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/nginx/conf.d/acme.conf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/nginx/conf.d/app.conf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/nginx/conf.d/frontend.conf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/nginx/conf.d/registry.conf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/nginx/conf.d/stats-api.conf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/nginx/conf.d/tasks-api.conf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/nginx/nginx.conf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Taskfile.yml" beforeDir="false" afterPath="$PROJECT_DIR$/Taskfile.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/api/tasks.api.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/api/tasks.api.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tasks-service/src/api/tasks.routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/tasks-service/src/api/tasks.routes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tasks-service/src/domain/task.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/tasks-service/src/domain/task.test.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tasks-service/src/domain/task.ts" beforeDir="false" afterPath="$PROJECT_DIR$/tasks-service/src/domain/task.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tasks-service/src/infrastructure/database.ts" beforeDir="false" afterPath="$PROJECT_DIR$/tasks-service/src/infrastructure/database.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tasks-service/src/server.ts" beforeDir="false" afterPath="$PROJECT_DIR$/tasks-service/src/server.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,6 +60,21 @@
     &quot;accountId&quot;: &quot;84da7523-bfd2-413f-8751-42cb45647160&quot;
   }
 }</component>
+  <component name="KubernetesApiPersistence"><![CDATA[{}]]></component>
+  <component name="KubernetesApiProvider"><![CDATA[{
+  "configuredContexts": [
+    {
+      "name": "docker-desktop",
+      "kubeConfigUrl": "file://C:/Users/themi/.kube/config",
+      "originalNamespace": "demo-devops"
+    }
+  ],
+  "isMigrated": true
+}]]></component>
+  <component name="KubernetesSettings">
+    <option name="contextConfigFilePath" value="file://$USER_HOME$/.kube/config" />
+    <option name="contextName" value="docker-desktop" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 2
 }</component>
@@ -79,7 +118,10 @@
       <workItem from="1769172657881" duration="4123000" />
       <workItem from="1770801749670" duration="72000" />
       <workItem from="1770971495558" duration="8106000" />
-      <workItem from="1770985985250" duration="1923000" />
+      <workItem from="1770985985250" duration="3208000" />
+      <workItem from="1770994537199" duration="2693000" />
+      <workItem from="1772527999954" duration="39000" />
+      <workItem from="1772790872504" duration="12069000" />
     </task>
     <servers />
   </component>

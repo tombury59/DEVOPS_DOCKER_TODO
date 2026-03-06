@@ -1,3 +1,5 @@
+import { randomUUID } from 'crypto'
+
 /**
  * Domain layer: Pure business logic
  * No dependencies on Express, HTTP, or any infrastructure
@@ -39,20 +41,24 @@ export function validateTaskTitle(title: string): string | null {
 
 /**
  * Creates a new task from a DTO
- * Pure function: no side effects
+ * If id/createdAt are not provided, generates defaults
  */
-export function createTask(dto: CreateTaskDTO): Task {
+export function createTask(dto: CreateTaskDTO, id?: string, createdAt?: Date): Task {
   const error = validateTaskTitle(dto.title)
   if (error) {
     throw new Error(error)
   }
 
+  // Générer un UUID v4 si aucun id fourni (Postgres attend un UUID)
+  const _id = id ?? randomUUID()
+  const _createdAt = createdAt ?? new Date()
+
   return {
-    id: crypto.randomUUID(),
+    id: _id,
     title: dto.title.trim(),
     description: dto.description?.trim(),
     status: 'todo',
-    createdAt: new Date()
+    createdAt: _createdAt,
   }
 }
 
@@ -71,7 +77,7 @@ export function updateTask(task: Task, updates: UpdateTaskDTO): Task {
   return {
     ...task,
     ...(updates.title !== undefined && { title: updates.title.trim() }),
-    ...(updates.description !== undefined && { description: updates.description?.trim() })
+    ...(updates.description !== undefined && { description: updates.description?.trim() }),
   }
 }
 
@@ -82,7 +88,7 @@ export function updateTask(task: Task, updates: UpdateTaskDTO): Task {
 export function toggleTaskStatus(task: Task): Task {
   return {
     ...task,
-    status: task.status === 'todo' ? 'done' : 'todo'
+    status: task.status === 'todo' ? 'done' : 'todo',
   }
 }
 
@@ -95,7 +101,7 @@ export function filterTasksByStatus(
   status?: TaskStatus
 ): Task[] {
   if (!status) return tasks
-  return tasks.filter(task => task.status === status)
+  return tasks.filter((task) => task.status === status)
 }
 
 /**

@@ -12,6 +12,24 @@ import { createTaskRoutes } from './api/tasks.routes.js'
 const app = express()
 const PORT = process.env.PORT || 3001
 
+// Middleware temporaire pour logger le body brut
+app.use((req, res, next) => {
+  let data = ''
+  req.setEncoding('utf8')
+  req.on('data', (chunk) => {
+    data += chunk
+  })
+  req.on('end', () => {
+    if (data && req.headers['content-type'] && req.headers['content-type'].includes('application/json')) {
+      console.log('--- RAW BODY START ---')
+      console.log(data)
+      console.log('--- RAW BODY END ---')
+    }
+    ;(req as any).rawBody = data
+    next()
+  })
+})
+
 // Middleware
 app.use(cors())
 app.use(express.json())

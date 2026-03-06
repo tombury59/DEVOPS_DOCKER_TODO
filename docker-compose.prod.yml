@@ -1,0 +1,167 @@
+version: '3.8'
+
+# Docker Compose pour la production
+# - n'expose que les ports nécessaires
+# - n'inclut pas de montages de code (images pré-buildées)
+# - s'appuie sur des variables d'environnement ou Docker secrets (à gérer hors repo)
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: taskmanager-db
+    environment:
+      # -> ne pas stocker les secrets dans le repo : injecter via l'environnement hôte ou secrets
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD_FILE: /run/secrets/postgres_password
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "${POSTGRES_PORT}:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - taskmanager-network
+    secrets:
+      - postgres_password
+    deploy:
+      resources:
+        limits:
+          cpus: '1.50'
+          memory: 1536M
+        reservations:
+          cpus: '0.75'
+          memory: 768M
+
+  tasks-service:
+    image: ${DOCKER_REGISTRY}/tasks-service:${DOCKER_TAG}
+    container_name: taskmanager-tasks-service
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER}:$(cat /run/secrets/postgres_password)@postgres:5432/${POSTGRES_DB}
+      PORT: ${TASKS_SERVICE_PORT}
+      NODE_ENV: production
+    ports:
+      - "${TASKS_SERVICE_PORT}:${TASKS_SERVICE_PORT}"
+    depends_on:
+      - postgres
+    networks:
+      - taskmanager-network
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '1.00'
+          memory: 1024M
+        reservations:
+          cpus: '0.50'
+          memory: 512M
+
+  stats-service:
+    image: ${DOCKER_REGISTRY}/stats-service:${DOCKER_TAG}
+    container_name: taskmanager-stats-service
+    environment:
+      TASKS_SERVICE_URL: http://tasks-service:${TASKS_SERVICE_PORT}
+      PORT: ${STATS_SERVICE_PORT}
+      NODE_ENV: production
+    ports:
+      - "${STATS_SERVICE_PORT}:${STATS_SERVICE_PORT}"
+    depends_on:
+      - tasks-service
+    networks:
+      - taskmanager-network
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '0.75'
+          memory: 768M
+        reservations:
+          cpus: '0.40'
+          memory: 384M
+
+  frontend:
+    image: ${DOCKER_REGISTRY}/frontend:${DOCKER_TAG}
+    container_name: taskmanager-frontend
+    ports:
+      - "${FRONTEND_PORT}:80"
+    depends_on:
+      - tasks-service
+      - stats-service
+    networks:
+      - taskmanager-network
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 512M
+        reservations:
+          cpus: '0.20'
+          memory: 256M
+
+  adminer:
+    image: adminer:latest
+    container_name: taskmanager-adminer
+    ports:
+      - "${ADMINER_PORT}:8080"
+    depends_on:
+      - postgres
+    environment:
+      ADMINER_DEFAULT_SERVER: ${ADMINER_DEFAULT_SERVER}
+    networks:
+      - taskmanager-network
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '0.10'
+          memory: 128M
+        reservations:
+          cpus: '0.05'
+          memory: 64M
+
+  nginx:
+    image: nginx:stable-alpine
+    container_name: taskmanager-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./certbot/conf:/etc/letsencrypt:ro
+      - ./certbot/www:/var/www/certbot:ro
+    depends_on:
+      - certbot
+    networks:
+      - taskmanager-network
+    restart: unless-stopped
+
+  certbot:
+    image: certbot/certbot:latest
+    container_name: taskmanager-certbot
+    volumes:
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+    entrypoint: >
+      /bin/sh -c 'trap exit TERM; while :; do certbot renew --webroot -w /var/www/certbot; sleep 12h & wait $${!}; done;'
+    networks:
+      - taskmanager-network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+    driver: local
+
+secrets:
+  postgres_password:
+    file: ./secrets/postgres_password.txt
+
+networks:
+  taskmanager-network:
+    driver: bridge
+
+# Note: Pour obtenir le premier certificat, exécutez manuellement la commande certbot `certonly --webroot` en ciblant vos domaines.

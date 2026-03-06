@@ -1,0 +1,54 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tasks-service
+  labels:
+    app: tasks-service
+spec:
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  selector:
+    matchLabels:
+      app: tasks-service
+  template:
+    metadata:
+      labels:
+        app: tasks-service
+    spec:
+      containers:
+        - name: tasks-service
+          image: tasks-service:latest
+          imagePullPolicy: Never # Utilise l'image locale
+          ports:
+            - containerPort: 3000
+          env:
+            - name: PORT
+              value: "3000"
+            - name: NODE_ENV
+              value: "production"
+            - name: DATABASE_URL
+              value: "postgres://taskuser:taskpass@host.docker.internal:5432/taskdb"
+
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: tasks-service
+  labels:
+    app: tasks-service
+spec:
+  type: NodePort
+  selector:
+    app: tasks-service
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000
+      nodePort: 30080
