@@ -4,11 +4,7 @@
 
 import { Router, type Request, type Response } from 'express'
 import { fetchAllTasks } from '../client/tasks.client.js'
-import {
-  computeStats,
-  computeDailyStats,
-  findMostProductiveDay
-} from '../domain/stats.js'
+import { computeStats, computeDailyStats, findMostProductiveDay } from '../domain/stats.js'
 
 export function createStatsRoutes(): Router {
   const router = Router()
@@ -27,13 +23,13 @@ export function createStatsRoutes(): Router {
       res.json({
         stats,
         dailyStats,
-        mostProductiveDay
+        mostProductiveDay,
       })
     } catch (error) {
       console.error('Error computing stats:', error)
       res.status(500).json({
         error: 'Failed to compute statistics',
-        message: error instanceof Error ? error.message : 'Unknown error'
+        message: error instanceof Error ? error.message : 'Unknown error',
       })
     }
   })
@@ -49,7 +45,7 @@ export function createStatsRoutes(): Router {
       console.error('Error computing summary:', error)
       res.status(500).json({
         error: 'Failed to compute summary',
-        message: error instanceof Error ? error.message : 'Unknown error'
+        message: error instanceof Error ? error.message : 'Unknown error',
       })
     }
   })

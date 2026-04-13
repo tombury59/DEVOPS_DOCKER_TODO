@@ -30,7 +30,7 @@ export class TaskRepository implements ITaskRepository {
   }
 
   async findByStatus(status: TaskStatus): Promise<Task[]> {
-    return this.findAll().then(tasks => tasks.filter(task => task.status === status))
+    return this.findAll().then((tasks) => tasks.filter((task) => task.status === status))
   }
 
   async save(task: Task): Promise<Task> {

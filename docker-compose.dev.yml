@@ -115,6 +115,7 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
+      target: dev
     container_name: taskmanager-frontend-dev
     env_file: .env.dev
     environment:
@@ -126,6 +127,7 @@ services:
       - stats-service
     volumes:
       - ./frontend:/app:cached
+      - /app/node_modules
     networks:
       - taskmanager-network
     restart: unless-stopped

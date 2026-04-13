@@ -113,12 +113,16 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
+      target: dev
     container_name: taskmanager-frontend
     ports:
       - "${FRONTEND_PORT}:80"
     depends_on:
       - tasks-service
       - stats-service
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
     networks:
       - taskmanager-network
     restart: unless-stopped

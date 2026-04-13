@@ -4,35 +4,39 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e06e72f3-cf9c-4dcf-9936-2644e3fe1654" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/docker-compose.dev.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docker-compose.prod.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k8s/frontend-configmap.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k8s/frontend-deployment.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k8s/frontend-service.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k8s/stats-service-configmap.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k8s/stats-service-deployment.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k8s/stats-service-service.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k8s/tasks-service-configmap.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k8s/tasks-service-deployment.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k8s/tasks-service-secret.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k8s/tasks-service-service.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k8s/tasks-service.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/nginx/conf.d/acme.conf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/nginx/conf.d/app.conf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/nginx/conf.d/frontend.conf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/nginx/conf.d/registry.conf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/nginx/conf.d/stats-api.conf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/nginx/conf.d/tasks-api.conf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/nginx/nginx.conf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+    <list default="true" id="e06e72f3-cf9c-4dcf-9936-2644e3fe1654" name="Changes" comment="Add Docker Compose configurations and update task management logic&#10;&#10;- Introduced development and production Docker Compose files for service orchestration.&#10;- Added configuration files for frontend and stats services in Kubernetes.&#10;- Enhanced task creation logic to allow custom IDs and creation dates.&#10;- Updated database connection handling to support environment variables.&#10;- Improved logging for raw request bodies in the server.&#10;- Modified .gitignore to exclude specific Kubernetes secrets files.">
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Taskfile.yml" beforeDir="false" afterPath="$PROJECT_DIR$/Taskfile.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-compose.dev.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.dev.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/api/tasks.api.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/api/tasks.api.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/TaskForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/TaskForm.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/TaskList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/TaskList.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/TaskStats.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/TaskStats.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/main.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/main.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/vite-env.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/vite-env.d.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s/tasks-service-configmap.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/tasks-service-configmap.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/stats-service/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/stats-service/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/stats-service/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/stats-service/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/stats-service/src/api/stats.routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/stats-service/src/api/stats.routes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/stats-service/src/client/tasks.client.ts" beforeDir="false" afterPath="$PROJECT_DIR$/stats-service/src/client/tasks.client.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/stats-service/src/domain/stats.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/stats-service/src/domain/stats.test.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/stats-service/src/domain/stats.ts" beforeDir="false" afterPath="$PROJECT_DIR$/stats-service/src/domain/stats.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/stats-service/src/server.ts" beforeDir="false" afterPath="$PROJECT_DIR$/stats-service/src/server.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tasks-service/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/tasks-service/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tasks-service/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/tasks-service/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tasks-service/src/api/tasks.routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/tasks-service/src/api/tasks.routes.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tasks-service/src/domain/task.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/tasks-service/src/domain/task.test.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tasks-service/src/domain/task.ts" beforeDir="false" afterPath="$PROJECT_DIR$/tasks-service/src/domain/task.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tasks-service/src/infrastructure/database.ts" beforeDir="false" afterPath="$PROJECT_DIR$/tasks-service/src/infrastructure/database.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tasks-service/src/infrastructure/task.repository.postgres.ts" beforeDir="false" afterPath="$PROJECT_DIR$/tasks-service/src/infrastructure/task.repository.postgres.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tasks-service/src/infrastructure/task.repository.ts" beforeDir="false" afterPath="$PROJECT_DIR$/tasks-service/src/infrastructure/task.repository.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tasks-service/src/server.ts" beforeDir="false" afterPath="$PROJECT_DIR$/tasks-service/src/server.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -60,17 +64,17 @@
     &quot;accountId&quot;: &quot;84da7523-bfd2-413f-8751-42cb45647160&quot;
   }
 }</component>
-  <component name="KubernetesApiPersistence"><![CDATA[{}]]></component>
-  <component name="KubernetesApiProvider"><![CDATA[{
-  "configuredContexts": [
+  <component name="KubernetesApiPersistence">{}</component>
+  <component name="KubernetesApiProvider">{
+  &quot;configuredContexts&quot;: [
     {
-      "name": "docker-desktop",
-      "kubeConfigUrl": "file://C:/Users/themi/.kube/config",
-      "originalNamespace": "demo-devops"
+      &quot;name&quot;: &quot;docker-desktop&quot;,
+      &quot;kubeConfigUrl&quot;: &quot;file://C:/Users/themi/.kube/config&quot;,
+      &quot;originalNamespace&quot;: &quot;demo-devops&quot;
     }
   ],
-  "isMigrated": true
-}]]></component>
+  &quot;isMigrated&quot;: true
+}</component>
   <component name="KubernetesSettings">
     <option name="contextConfigFilePath" value="file://$USER_HOME$/.kube/config" />
     <option name="contextName" value="docker-desktop" />
@@ -96,9 +100,14 @@
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;terminal&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;database.query.execution&quot;,
     &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\themi\\Documents\\Cours\\Cours\\M1 FS\\DEVOPS_DOCKER\\GROS-PROJET\\frontend\\node_modules\\typescript\\lib&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  },
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;postgresql&quot;
+    ]
   }
 }</component>
   <component name="SharedIndexes">
@@ -121,12 +130,29 @@
       <workItem from="1770985985250" duration="3208000" />
       <workItem from="1770994537199" duration="2693000" />
       <workItem from="1772527999954" duration="39000" />
-      <workItem from="1772790872504" duration="12069000" />
+      <workItem from="1772790872504" duration="12772000" />
+      <workItem from="1774339683969" duration="1567000" />
+      <workItem from="1774345752337" duration="10905000" />
+      <workItem from="1774363424211" duration="3933000" />
+      <workItem from="1774428195217" duration="158000" />
     </task>
+    <task id="LOCAL-00001" summary="Add Docker Compose configurations and update task management logic&#10;&#10;- Introduced development and production Docker Compose files for service orchestration.&#10;- Added configuration files for frontend and stats services in Kubernetes.&#10;- Enhanced task creation logic to allow custom IDs and creation dates.&#10;- Updated database connection handling to support environment variables.&#10;- Improved logging for raw request bodies in the server.&#10;- Modified .gitignore to exclude specific Kubernetes secrets files.">
+      <option name="closed" value="true" />
+      <created>1772811877941</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1772811877941</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Add Docker Compose configurations and update task management logic&#10;&#10;- Introduced development and production Docker Compose files for service orchestration.&#10;- Added configuration files for frontend and stats services in Kubernetes.&#10;- Enhanced task creation logic to allow custom IDs and creation dates.&#10;- Updated database connection handling to support environment variables.&#10;- Improved logging for raw request bodies in the server.&#10;- Modified .gitignore to exclude specific Kubernetes secrets files." />
+    <option name="LAST_COMMIT_MESSAGE" value="Add Docker Compose configurations and update task management logic&#10;&#10;- Introduced development and production Docker Compose files for service orchestration.&#10;- Added configuration files for frontend and stats services in Kubernetes.&#10;- Enhanced task creation logic to allow custom IDs and creation dates.&#10;- Updated database connection handling to support environment variables.&#10;- Improved logging for raw request bodies in the server.&#10;- Modified .gitignore to exclude specific Kubernetes secrets files." />
   </component>
   <component name="github-copilot-workspace">
     <instructionFileLocations>

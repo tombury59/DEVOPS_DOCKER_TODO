@@ -31,20 +31,15 @@ export function TaskList({ tasks, onToggle, onDelete }: TaskListProps) {
                 style={{
                   ...styles.taskTitle,
                   textDecoration: task.status === 'done' ? 'line-through' : 'none',
-                  color: task.status === 'done' ? '#999' : '#333'
+                  color: task.status === 'done' ? '#999' : '#333',
                 }}
               >
                 {task.title}
               </h3>
-              {task.description && (
-                <p style={styles.taskDescription}>{task.description}</p>
-              )}
+              {task.description && <p style={styles.taskDescription}>{task.description}</p>}
             </div>
           </div>
-          <button
-            onClick={() => onDelete(task.id)}
-            style={styles.deleteButton}
-          >
+          <button onClick={() => onDelete(task.id)} style={styles.deleteButton}>
             Delete
           </button>
         </div>
@@ -57,7 +52,7 @@ const styles = {
   list: {
     display: 'flex',
     flexDirection: 'column' as const,
-    gap: '10px'
+    gap: '10px',
   },
   taskItem: {
     display: 'flex',
@@ -66,31 +61,31 @@ const styles = {
     padding: '15px',
     backgroundColor: '#f8f9fa',
     borderRadius: '8px',
-    border: '1px solid #e0e0e0'
+    border: '1px solid #e0e0e0',
   },
   taskContent: {
     display: 'flex',
     alignItems: 'center',
     gap: '15px',
-    flex: 1
+    flex: 1,
   },
   checkbox: {
     width: '20px',
     height: '20px',
-    cursor: 'pointer'
+    cursor: 'pointer',
   },
   taskText: {
-    flex: 1
+    flex: 1,
   },
   taskTitle: {
     margin: '0 0 5px 0',
     fontSize: '18px',
-    fontWeight: '500' as const
+    fontWeight: '500' as const,
   },
   taskDescription: {
     margin: 0,
     fontSize: '14px',
-    color: '#666'
+    color: '#666',
   },
   deleteButton: {
     padding: '8px 16px',
@@ -100,11 +95,11 @@ const styles = {
     borderRadius: '6px',
     cursor: 'pointer',
     fontSize: '14px',
-    fontWeight: 'bold' as const
+    fontWeight: 'bold' as const,
   },
   empty: {
     textAlign: 'center' as const,
     padding: '40px',
-    color: '#999'
-  }
+    color: '#999',
+  },
 }

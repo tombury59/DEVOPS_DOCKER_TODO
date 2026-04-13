@@ -9,7 +9,7 @@ import {
   deleteTask,
   fetchStats,
   type Task,
-  type TaskStats
+  type TaskStats,
 } from './api/tasks.api'
 
 export function App() {
@@ -18,7 +18,7 @@ export function App() {
     total: 0,
     todo: 0,
     done: 0,
-    completionRate: 0
+    completionRate: 0,
   })
   const [filter, setFilter] = useState<'all' | 'todo' | 'done'>('all')
   const [loading, setLoading] = useState(true)
@@ -105,7 +105,7 @@ export function App() {
           onClick={() => setFilter('all')}
           style={{
             ...styles.filterButton,
-            ...(filter === 'all' ? styles.filterButtonActive : {})
+            ...(filter === 'all' ? styles.filterButtonActive : {}),
           }}
         >
           All
@@ -114,7 +114,7 @@ export function App() {
           onClick={() => setFilter('todo')}
           style={{
             ...styles.filterButton,
-            ...(filter === 'todo' ? styles.filterButtonActive : {})
+            ...(filter === 'todo' ? styles.filterButtonActive : {}),
           }}
         >
           To Do
@@ -123,7 +123,7 @@ export function App() {
           onClick={() => setFilter('done')}
           style={{
             ...styles.filterButton,
-            ...(filter === 'done' ? styles.filterButtonActive : {})
+            ...(filter === 'done' ? styles.filterButtonActive : {}),
           }}
         >
           Completed
@@ -135,11 +135,7 @@ export function App() {
       {loading ? (
         <div style={styles.loading}>Loading tasks...</div>
       ) : (
-        <TaskList
-          tasks={tasks}
-          onToggle={handleToggleTask}
-          onDelete={handleDeleteTask}
-        />
+        <TaskList tasks={tasks} onToggle={handleToggleTask} onDelete={handleDeleteTask} />
       )}
     </div>
   )
@@ -150,21 +146,21 @@ const styles = {
     maxWidth: '800px',
     margin: '0 auto',
     padding: '40px 20px',
-    fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
+    fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
   },
   header: {
     textAlign: 'center' as const,
-    marginBottom: '40px'
+    marginBottom: '40px',
   },
   title: {
     fontSize: '42px',
     margin: '0 0 10px 0',
-    color: '#2db7c4'
+    color: '#2db7c4',
   },
   subtitle: {
     fontSize: '16px',
     color: '#666',
-    margin: 0
+    margin: 0,
   },
   error: {
     backgroundColor: '#ffebee',
@@ -172,13 +168,13 @@ const styles = {
     padding: '15px',
     borderRadius: '8px',
     marginBottom: '20px',
-    border: '1px solid #ef5350'
+    border: '1px solid #ef5350',
   },
   filters: {
     display: 'flex',
     gap: '10px',
     marginBottom: '20px',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   filterButton: {
     padding: '10px 20px',
@@ -188,17 +184,17 @@ const styles = {
     cursor: 'pointer',
     fontSize: '14px',
     fontWeight: '500' as const,
-    transition: 'all 0.3s'
+    transition: 'all 0.3s',
   },
   filterButtonActive: {
     backgroundColor: '#2db7c4',
     borderColor: '#2db7c4',
-    color: 'white'
+    color: 'white',
   },
   loading: {
     textAlign: 'center' as const,
     padding: '40px',
     color: '#999',
-    fontSize: '18px'
-  }
+    fontSize: '18px',
+  },
 }

@@ -32,29 +32,29 @@ const styles = {
     display: 'grid',
     gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))',
     gap: '20px',
-    marginBottom: '30px'
+    marginBottom: '30px',
   },
   statCard: {
     backgroundColor: '#f8f9fa',
     padding: '20px',
     borderRadius: '12px',
     textAlign: 'center' as const,
-    border: '2px solid #e0e0e0'
+    border: '2px solid #e0e0e0',
   },
   completionCard: {
     backgroundColor: '#2db7c4',
     color: 'white',
-    border: '2px solid #2db7c4'
+    border: '2px solid #2db7c4',
   },
   statValue: {
     fontSize: '32px',
     fontWeight: 'bold' as const,
-    marginBottom: '8px'
+    marginBottom: '8px',
   },
   statLabel: {
     fontSize: '14px',
     textTransform: 'uppercase' as const,
     opacity: 0.8,
-    letterSpacing: '1px'
-  }
+    letterSpacing: '1px',
+  },
 }

@@ -20,7 +20,11 @@ app.use((req, res, next) => {
     data += chunk
   })
   req.on('end', () => {
-    if (data && req.headers['content-type'] && req.headers['content-type'].includes('application/json')) {
+    if (
+      data &&
+      req.headers['content-type'] &&
+      req.headers['content-type'].includes('application/json')
+    ) {
       console.log('--- RAW BODY START ---')
       console.log(data)
       console.log('--- RAW BODY END ---')
@@ -48,7 +52,7 @@ app.get('/health', async (req, res) => {
     status: dbHealthy ? 'healthy' : 'unhealthy',
     service: 'tasks-service',
     database: dbHealthy ? 'connected' : 'disconnected',
-    timestamp: new Date().toISOString()
+    timestamp: new Date().toISOString(),
   })
 })
 

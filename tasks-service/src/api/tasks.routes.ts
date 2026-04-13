@@ -13,7 +13,7 @@ import {
   sortTasksByDate,
   type CreateTaskDTO,
   type UpdateTaskDTO,
-  type TaskStatus
+  type TaskStatus,
 } from '../domain/task.js'
 
 export function createTaskRoutes(repository: ITaskRepository): Router {
@@ -23,7 +23,7 @@ export function createTaskRoutes(repository: ITaskRepository): Router {
   router.get('/', async (req: Request, res: Response) => {
     try {
       // Correction: extraire la query et caster proprement
-      const status = (req.query.status as string) as TaskStatus | undefined
+      const status = req.query.status as string as TaskStatus | undefined
       let tasks = await repository.findAll()
 
       if (status) {

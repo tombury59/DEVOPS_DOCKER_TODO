@@ -38,10 +38,12 @@ export class TaskRepositoryPostgres implements ITaskRepository {
 
     if (existing) {
       // Update
-      await pool.query(
-        'UPDATE tasks SET title = $1, description = $2, status = $3 WHERE id = $4',
-        [task.title, task.description, task.status, task.id]
-      )
+      await pool.query('UPDATE tasks SET title = $1, description = $2, status = $3 WHERE id = $4', [
+        task.title,
+        task.description,
+        task.status,
+        task.id,
+      ])
     } else {
       // Insert
       await pool.query(
@@ -69,7 +71,7 @@ export class TaskRepositoryPostgres implements ITaskRepository {
       title: row.title,
       description: row.description,
       status: row.status,
-      createdAt: new Date(row.created_at)
+      createdAt: new Date(row.created_at),
     }
   }
 }

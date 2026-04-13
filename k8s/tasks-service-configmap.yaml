@@ -12,6 +12,7 @@ data:
   ENABLE_METRICS: "true"
   # Configuration base de données (non sensible)
   DB_HOST: "host.docker.internal"
+  #DB_HOST: "postgres"
   DB_PORT: "5432"
   DB_NAME: "taskdb"
   DB_USER: "taskuser"

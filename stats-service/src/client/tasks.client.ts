@@ -16,12 +16,12 @@ export async function fetchAllTasks(): Promise<Task[]> {
       throw new Error(`Failed to fetch tasks: ${response.statusText}`)
     }
 
-    const data = await response.json() as { tasks: any[] }
+    const data = (await response.json()) as { tasks: any[] }
 
     // Parse dates (they come as strings from JSON)
     return data.tasks.map((task: any) => ({
       ...task,
-      createdAt: new Date(task.createdAt)
+      createdAt: new Date(task.createdAt),
     }))
   } catch (error) {
     console.error('Error fetching tasks from tasks-service:', error)

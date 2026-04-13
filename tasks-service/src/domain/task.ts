@@ -96,10 +96,7 @@ export function toggleTaskStatus(task: Task): Task {
  * Filters tasks by status
  * Pure function: no mutations
  */
-export function filterTasksByStatus(
-  tasks: Task[],
-  status?: TaskStatus
-): Task[] {
+export function filterTasksByStatus(tasks: Task[], status?: TaskStatus): Task[] {
   if (!status) return tasks
   return tasks.filter((task) => task.status === status)
 }

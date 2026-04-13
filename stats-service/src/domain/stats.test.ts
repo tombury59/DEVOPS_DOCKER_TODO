@@ -4,7 +4,7 @@ import {
   computeDailyStats,
   computeAverageCompletionRate,
   findMostProductiveDay,
-  type Task
+  type Task,
 } from './stats.js'
 
 describe('computeStats', () => {
@@ -13,7 +13,7 @@ describe('computeStats', () => {
       { id: '1', title: 'Task 1', status: 'todo', createdAt: new Date() },
       { id: '2', title: 'Task 2', status: 'done', createdAt: new Date() },
       { id: '3', title: 'Task 3', status: 'done', createdAt: new Date() },
-      { id: '4', title: 'Task 4', status: 'todo', createdAt: new Date() }
+      { id: '4', title: 'Task 4', status: 'todo', createdAt: new Date() },
     ]
 
     const stats = computeStats(tasks)
@@ -36,7 +36,7 @@ describe('computeStats', () => {
   it('should return 100% completion when all tasks are done', () => {
     const tasks: Task[] = [
       { id: '1', title: 'Task 1', status: 'done', createdAt: new Date() },
-      { id: '2', title: 'Task 2', status: 'done', createdAt: new Date() }
+      { id: '2', title: 'Task 2', status: 'done', createdAt: new Date() },
     ]
 
     const stats = computeStats(tasks)
@@ -48,7 +48,7 @@ describe('computeStats', () => {
     const tasks: Task[] = [
       { id: '1', title: 'Task 1', status: 'done', createdAt: new Date() },
       { id: '2', title: 'Task 2', status: 'todo', createdAt: new Date() },
-      { id: '3', title: 'Task 3', status: 'todo', createdAt: new Date() }
+      { id: '3', title: 'Task 3', status: 'todo', createdAt: new Date() },
     ]
 
     const stats = computeStats(tasks)
@@ -63,7 +63,7 @@ describe('computeDailyStats', () => {
     const tasks: Task[] = [
       { id: '1', title: 'Task 1', status: 'todo', createdAt: new Date('2024-01-01') },
       { id: '2', title: 'Task 2', status: 'done', createdAt: new Date('2024-01-01') },
-      { id: '3', title: 'Task 3', status: 'done', createdAt: new Date('2024-01-02') }
+      { id: '3', title: 'Task 3', status: 'done', createdAt: new Date('2024-01-02') },
     ]
 
     const dailyStats = computeDailyStats(tasks)
@@ -72,12 +72,12 @@ describe('computeDailyStats', () => {
     expect(dailyStats[0]).toEqual({
       date: '2024-01-01',
       created: 2,
-      completed: 1
+      completed: 1,
     })
     expect(dailyStats[1]).toEqual({
       date: '2024-01-02',
       created: 1,
-      completed: 1
+      completed: 1,
     })
   })
 
@@ -90,7 +90,7 @@ describe('computeDailyStats', () => {
     const tasks: Task[] = [
       { id: '1', title: 'Task 1', status: 'todo', createdAt: new Date('2024-01-03') },
       { id: '2', title: 'Task 2', status: 'todo', createdAt: new Date('2024-01-01') },
-      { id: '3', title: 'Task 3', status: 'todo', createdAt: new Date('2024-01-02') }
+      { id: '3', title: 'Task 3', status: 'todo', createdAt: new Date('2024-01-02') },
     ]
 
     const dailyStats = computeDailyStats(tasks)
@@ -107,7 +107,7 @@ describe('computeAverageCompletionRate', () => {
       { id: '1', title: 'Task 1', status: 'done', createdAt: new Date() },
       { id: '2', title: 'Task 2', status: 'done', createdAt: new Date() },
       { id: '3', title: 'Task 3', status: 'done', createdAt: new Date() },
-      { id: '4', title: 'Task 4', status: 'todo', createdAt: new Date() }
+      { id: '4', title: 'Task 4', status: 'todo', createdAt: new Date() },
     ]
 
     const rate = computeAverageCompletionRate(tasks)
@@ -125,7 +125,7 @@ describe('findMostProductiveDay', () => {
     const dailyStats = [
       { date: '2024-01-01', created: 5, completed: 2 },
       { date: '2024-01-02', created: 3, completed: 3 },
-      { date: '2024-01-03', created: 4, completed: 1 }
+      { date: '2024-01-03', created: 4, completed: 1 },
     ]
 
     const mostProductive = findMostProductiveDay(dailyStats)
@@ -133,7 +133,7 @@ describe('findMostProductiveDay', () => {
     expect(mostProductive).toEqual({
       date: '2024-01-02',
       created: 3,
-      completed: 3
+      completed: 3,
     })
   })
 
@@ -145,7 +145,7 @@ describe('findMostProductiveDay', () => {
   it('should return first day if multiple days have same completion count', () => {
     const dailyStats = [
       { date: '2024-01-01', created: 5, completed: 3 },
-      { date: '2024-01-02', created: 4, completed: 3 }
+      { date: '2024-01-02', created: 4, completed: 3 },
     ]
 
     const mostProductive = findMostProductiveDay(dailyStats)

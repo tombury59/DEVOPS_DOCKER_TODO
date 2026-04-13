@@ -37,7 +37,7 @@ export async function createTask(title: string, description?: string): Promise<T
   const response = await fetch(TASKS_API_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ title, description })
+    body: JSON.stringify({ title, description }),
   })
 
   if (!response.ok) {
@@ -50,7 +50,7 @@ export async function createTask(title: string, description?: string): Promise<T
 
 export async function toggleTask(id: string): Promise<Task> {
   const response = await fetch(`${TASKS_API_URL}/${id}/toggle`, {
-    method: 'PATCH'
+    method: 'PATCH',
   })
 
   if (!response.ok) {
@@ -62,7 +62,7 @@ export async function toggleTask(id: string): Promise<Task> {
 
 export async function deleteTask(id: string): Promise<void> {
   const response = await fetch(`${TASKS_API_URL}/${id}`, {
-    method: 'DELETE'
+    method: 'DELETE',
   })
 
   if (!response.ok) {

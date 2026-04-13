@@ -23,7 +23,7 @@ app.get('/health', (req, res) => {
     status: 'healthy',
     service: 'stats-service',
     timestamp: new Date().toISOString(),
-    tasksServiceUrl: process.env.TASKS_SERVICE_URL || 'http://tasks-service:3001'
+    tasksServiceUrl: process.env.TASKS_SERVICE_URL || 'http://tasks-service:3001',
   })
 })
 

@@ -6,7 +6,7 @@ import {
   toggleTaskStatus,
   filterTasksByStatus,
   sortTasksByDate,
-  type Task
+  type Task,
 } from './task.js'
 
 describe('validateTaskTitle', () => {
@@ -31,7 +31,7 @@ describe('createTask', () => {
     const dto = { title: 'My task' }
     const id = crypto.randomUUID()
     const createdAt = new Date()
-    const task = createTask(dto,id,createdAt)
+    const task = createTask(dto, id, createdAt)
 
     expect(task.id).toBeDefined()
     expect(task.id).toMatch(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i)
@@ -45,7 +45,7 @@ describe('createTask', () => {
     const dto = { title: '  Spaces  ', description: '  Desc  ' }
     const id = crypto.randomUUID()
     const createdAt = new Date()
-    const task = createTask(dto,id,createdAt)
+    const task = createTask(dto, id, createdAt)
 
     expect(task.title).toBe('Spaces')
     expect(task.description).toBe('Desc')
@@ -54,8 +54,10 @@ describe('createTask', () => {
   it('should throw error for invalid title', () => {
     const id = crypto.randomUUID()
     const createdAt = new Date()
-    expect(() => createTask({ title: '' },id,createdAt)).toThrow('Title cannot be empty')
-    expect(() => createTask({ title: 'a'.repeat(101) },id,createdAt)).toThrow('Title must be less than 100 characters')
+    expect(() => createTask({ title: '' }, id, createdAt)).toThrow('Title cannot be empty')
+    expect(() => createTask({ title: 'a'.repeat(101) }, id, createdAt)).toThrow(
+      'Title must be less than 100 characters'
+    )
   })
 })
 
@@ -65,7 +67,7 @@ describe('updateTask', () => {
     title: 'Original',
     description: 'Original desc',
     status: 'todo',
-    createdAt: new Date('2024-01-01')
+    createdAt: new Date('2024-01-01'),
   }
 
   it('should update title', () => {
@@ -106,7 +108,7 @@ describe('toggleTaskStatus', () => {
       id: '1',
       title: 'Test',
       status: 'todo',
-      createdAt: new Date()
+      createdAt: new Date(),
     }
 
     const toggled = toggleTaskStatus(task)
@@ -120,7 +122,7 @@ describe('toggleTaskStatus', () => {
       id: '1',
       title: 'Test',
       status: 'done',
-      createdAt: new Date()
+      createdAt: new Date(),
     }
 
     const toggled = toggleTaskStatus(task)
@@ -132,7 +134,7 @@ describe('toggleTaskStatus', () => {
       id: '1',
       title: 'Test',
       status: 'todo',
-      createdAt: new Date()
+      createdAt: new Date(),
     }
 
     toggleTaskStatus(task)
@@ -144,7 +146,7 @@ describe('filterTasksByStatus', () => {
   const tasks: Task[] = [
     { id: '1', title: 'Task 1', status: 'todo', createdAt: new Date() },
     { id: '2', title: 'Task 2', status: 'done', createdAt: new Date() },
-    { id: '3', title: 'Task 3', status: 'todo', createdAt: new Date() }
+    { id: '3', title: 'Task 3', status: 'todo', createdAt: new Date() },
   ]
 
   it('should return all tasks if no status provided', () => {
@@ -154,7 +156,7 @@ describe('filterTasksByStatus', () => {
   it('should filter by todo status', () => {
     const filtered = filterTasksByStatus(tasks, 'todo')
     expect(filtered).toHaveLength(2)
-    expect(filtered.every(t => t.status === 'todo')).toBe(true)
+    expect(filtered.every((t) => t.status === 'todo')).toBe(true)
   })
 
   it('should filter by done status', () => {
@@ -169,7 +171,7 @@ describe('sortTasksByDate', () => {
     const tasks: Task[] = [
       { id: '1', title: 'Old', status: 'todo', createdAt: new Date('2024-01-01') },
       { id: '2', title: 'New', status: 'todo', createdAt: new Date('2024-01-03') },
-      { id: '3', title: 'Middle', status: 'todo', createdAt: new Date('2024-01-02') }
+      { id: '3', title: 'Middle', status: 'todo', createdAt: new Date('2024-01-02') },
     ]
 
     const sorted = sortTasksByDate(tasks)
@@ -182,7 +184,7 @@ describe('sortTasksByDate', () => {
   it('should not mutate original array', () => {
     const tasks: Task[] = [
       { id: '1', title: 'Task', status: 'todo', createdAt: new Date('2024-01-01') },
-      { id: '2', title: 'Task', status: 'todo', createdAt: new Date('2024-01-02') }
+      { id: '2', title: 'Task', status: 'todo', createdAt: new Date('2024-01-02') },
     ]
 
     sortTasksByDate(tasks)

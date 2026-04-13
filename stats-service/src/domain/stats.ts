@@ -31,15 +31,15 @@ export interface DailyStats {
  */
 export function computeStats(tasks: Task[]): TaskStats {
   const total = tasks.length
-  const done = tasks.filter(t => t.status === 'done').length
-  const todo = tasks.filter(t => t.status === 'todo').length
+  const done = tasks.filter((t) => t.status === 'done').length
+  const todo = tasks.filter((t) => t.status === 'todo').length
   const completionRate = total > 0 ? Math.round((done / total) * 100) : 0
 
   return {
     total,
     todo,
     done,
-    completionRate
+    completionRate,
   }
 }
 
@@ -69,7 +69,7 @@ export function computeDailyStats(tasks: Task[]): DailyStats[] {
     .map(([date, stats]) => ({
       date,
       created: stats.created,
-      completed: stats.completed
+      completed: stats.completed,
     }))
     .sort((a, b) => a.date.localeCompare(b.date))
 }
@@ -81,7 +81,7 @@ export function computeDailyStats(tasks: Task[]): DailyStats[] {
 export function computeAverageCompletionRate(tasks: Task[]): number {
   if (tasks.length === 0) return 0
 
-  const completedTasks = tasks.filter(t => t.status === 'done')
+  const completedTasks = tasks.filter((t) => t.status === 'done')
   return Math.round((completedTasks.length / tasks.length) * 100)
 }
 
@@ -91,7 +91,5 @@ export function computeAverageCompletionRate(tasks: Task[]): number {
 export function findMostProductiveDay(dailyStats: DailyStats[]): DailyStats | null {
   if (dailyStats.length === 0) return null
 
-  return dailyStats.reduce((max, current) =>
-    current.completed > max.completed ? current : max
-  )
+  return dailyStats.reduce((max, current) => (current.completed > max.completed ? current : max))
 }

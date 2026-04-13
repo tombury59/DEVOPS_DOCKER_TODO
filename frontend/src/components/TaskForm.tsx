@@ -47,7 +47,7 @@ const styles = {
     display: 'flex',
     flexDirection: 'column' as const,
     gap: '10px',
-    marginBottom: '30px'
+    marginBottom: '30px',
   },
   input: {
     padding: '12px',
@@ -55,7 +55,7 @@ const styles = {
     border: '2px solid #e0e0e0',
     borderRadius: '8px',
     outline: 'none',
-    transition: 'border-color 0.3s'
+    transition: 'border-color 0.3s',
   },
   button: {
     padding: '12px',
@@ -66,6 +66,6 @@ const styles = {
     borderRadius: '8px',
     cursor: 'pointer',
     fontWeight: 'bold' as const,
-    transition: 'background-color 0.3s'
-  }
+    transition: 'background-color 0.3s',
+  },
 }
